@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const model = mongoose.model;
 
-// const passportLocalMongoose = require('passport-local-mongoose')
-
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -13,7 +11,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    emailAddress: {
+    email: {
         type: String,
         required: true,
         unique: true
@@ -31,9 +29,5 @@ const UserSchema = new Schema({
         required: true
     }
 })
-
-// UserSchema.plugin(passportLocalMongoose, {
-//     usernameField: 'emailAddress' // Use 'emailAddress' as the username field
-// });
 
 module.exports = model('User', UserSchema);
