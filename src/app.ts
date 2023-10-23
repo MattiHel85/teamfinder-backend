@@ -5,6 +5,7 @@ import { Error } from 'mongoose';
 
 // types
 import { Team } from './types/team';
+import { User } from './types/user';
 
 
 const bodyParser = require('body-parser');
@@ -17,6 +18,7 @@ const mongoPass = process.env.PASSWORD;
 
 // models
 const TeamModel = require('./models/team');
+const UserModel = require('./models/user');
 
 
 // Parse JSON and URL-encoded data
@@ -54,6 +56,18 @@ const testTeam = new TeamModel({
     league: "PL",
     coach: "Test Coach"
 });
+
+// Test user
+const testUser = new UserModel({
+    firstName: "Matt",
+    lastName: "Simpson",
+    emailAddress: "matt.rc.simpson@gmail.com",
+    password: "12345",
+    profilePicUrl: "www.pics.com/me.jpg",
+    isAdmin: true
+})
+
+/* TEAM ROUTES */
 
 // fetch all teams
 app.get('/teams', async (req, res) => {
@@ -95,6 +109,21 @@ app.delete('/teams/delete/:id', async (req, res) => {
     const team = await TeamModel.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
     console.log(`Deleted team: ${team.name}`);
 })
+
+/* USER ROUTES */
+
+// add user
+app.post('/users/adduser', async (req, res) => {
+    const newUser = testUser;
+
+    await newUser.save()
+        .then((newUser: User) => {
+            console.log(`Added user: ${newUser.firstName} ${newUser.lastName}`)
+        })
+        .catch((e: Error) => {
+            console.log(e)
+        })
+});
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
