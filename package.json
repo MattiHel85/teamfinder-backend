@@ -4,8 +4,9 @@
   "description": "teamfinder app backend",
   "main": "app.ts",
   "scripts": {
+    "build":"tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node app.ts",
+    "start": "node dist/app.js",
     "dev": "tsc --watch"
   },
   "repository": {
