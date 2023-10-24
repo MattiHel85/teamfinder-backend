@@ -1,4 +1,5 @@
-require('dotenv').config() // Require this to hide MongoDB password
+require('dotenv').config();
+
 import './config/passport';
 import express from 'express';
 import { Error } from 'mongoose';
@@ -40,6 +41,8 @@ db.once("open", () => console.log("Connected to DB!"));
 
 
 /* TEAM ROUTES */
+
+// fetch teams
 app.get('/teams', teamRouter);
 // fetch team by id
 app.get('/teams/:id', teamRouter);
@@ -53,7 +56,11 @@ app.delete('/teams/delete/:id', teamRouter);
 
 
 /* AUTH ROUTES */
+
+// login
 app.post('/login', loginRouter);
+// get authorised profile
+app.get('/profile', loginRouter);
 
 
 /* USER ROUTES */

@@ -1,4 +1,5 @@
 import express from "express";
+import { isAdmin } from "../middleware/adminMiddleware";
 import { Team } from "../types/team";
 const TeamModel = require('../models/team');
 
@@ -31,7 +32,7 @@ router.get('/teams/:id', async (req, res) => {
 
 
 // add team
-router.post('/teams/addteam', async (req, res) => {
+router.post('/teams/addteam', isAdmin, async (req, res) => {
     const newTeam = testTeam;
 
     await newTeam.save()
@@ -44,14 +45,14 @@ router.post('/teams/addteam', async (req, res) => {
 });
 
 // update team by id 
-router.put('/teams/update/:id', async (req, res) => {    
+router.put('/teams/update/:id', isAdmin, async (req, res) => {    
     const { id } = req.params;
     const team = await TeamModel.findByIdAndUpdate(id, req.body, { runValidators: true, new: true})
     console.log(`Data updated for: ${team.name}`);
 })
 
 // delete team by id
-router.delete('/teams/delete/:id', async (req, res) => {    
+router.delete('/teams/delete/:id', isAdmin, async (req, res) => {    
     const { id } = req.params;
     const team = await TeamModel.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
     console.log(`Deleted team: ${team.name}`);

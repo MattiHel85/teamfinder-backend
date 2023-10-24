@@ -5,7 +5,7 @@ export interface User {
     email: string;
     password?: string;
     profilePicUrl?: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
 }
 
 export interface JwtPayload {

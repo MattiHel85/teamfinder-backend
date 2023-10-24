@@ -18,15 +18,15 @@ export const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: false
+        required: true
     },
     profilePicUrl: {
         type: String,
-        required: false
+        required: true
     },
     isAdmin: {
         type: Boolean,
-        required: true
+        required: false
     }
 })
 
