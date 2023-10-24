@@ -5,7 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./src/app.ts",
+    "start": "ts-node app.ts",
     "dev": "tsc --watch"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "mongoose": "^7.6.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "ts-node": "^10.4.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
