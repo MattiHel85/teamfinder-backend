@@ -1,11 +1,11 @@
 require('dotenv').config();
 
-import './config/passport';
+import './src/config/passport';
 import express from 'express';
 import { Error } from 'mongoose';
-import loginRouter from './routes/authRoutes';
-import teamRouter from './routes/teamRoutes';
-import userRouter from './routes/userRoutes';
+import loginRouter from './src/routes/authRoutes';
+import teamRouter from './src/routes/teamRoutes';
+import userRouter from './src/routes/userRoutes';
 import passport from 'passport';
 
 const app = express();
