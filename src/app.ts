@@ -22,7 +22,7 @@ app.use(passport.initialize());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Welcome to Teamfinder 2.0')
+    res.send('Welcome to Futistr')
 });
 
 // db connection address 

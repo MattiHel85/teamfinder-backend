@@ -5,17 +5,6 @@ const TeamModel = require('../models/team');
 
 const router = express.Router();
 
-const testTeam = new TeamModel({
-    badgeUrl: "www.test.com",
-    name: "Test Team United",
-    nickname: "Testy Testes",
-    founded: 1888,
-    groundName: "Test Ground",
-    groundCapacity: 50000,
-    country: "England",
-    league: "PL",
-    coach: "Test Coach"
-});
 
 // fetch all teams
 router.get('/teams', async (req, res) => {
@@ -33,7 +22,7 @@ router.get('/teams/:id', async (req, res) => {
 
 // add team
 router.post('/teams/addteam', isAdmin, async (req, res) => {
-    const newTeam = testTeam;
+    const newTeam = req.body;
 
     await newTeam.save()
         .then((newTeam: Team) => {
