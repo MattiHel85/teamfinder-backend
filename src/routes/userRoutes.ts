@@ -8,13 +8,13 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 
 // get users 
-router.get('/users', isAdminOrCurrentUser, async (req, res) => {
+router.get('/users', async (req, res) => {
     const allUsers = await UserModel.find({});
     res.status(200).json(allUsers);
 });
 
 // fetch user by id
-router.get('/users/:id', isAdminOrCurrentUser, async (req, res) => {
+router.get('/users/:id', async (req, res) => {
     const { id } = req.params;
     const user = await UserModel.findById(id);
     res.status(200).json(user);
