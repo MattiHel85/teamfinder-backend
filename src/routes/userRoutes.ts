@@ -1,27 +1,25 @@
 require('dotenv').config();
 
 import express from 'express';
-import { isAdminOrCurrentUser } from '../middleware/isAdminOrCurrentUser';
 
 const UserModel = require('../models/user');
 const bcrypt = require('bcryptjs');
-const router = express.Router();
 
 // get users 
-router.get('/users', async (req, res) => {
+const getAllUsers = async (req: any, res: any) => {
     const allUsers = await UserModel.find({});
     res.status(200).json(allUsers);
-});
+};
 
 // fetch user by id
-router.get('/users/:id', async (req, res) => {
+const getUserById = async (req: any, res: any) => {
     const { id } = req.params;
     const user = await UserModel.findById(id);
     res.status(200).json(user);
-});
+};
 
 // add user
-router.post('/users/adduser', async (req, res) => {
+const addUser = async (req: any, res: any) => {
     const { firstName, lastName, email, password, profilePicUrl, adminCode } = req.body;
 
     let isAdmin: Boolean = false;
@@ -54,21 +52,27 @@ router.post('/users/adduser', async (req, res) => {
             }
         })
     })
-});
+};
 
 // update users by id 
-router.put('/users/update/:id', isAdminOrCurrentUser, async (req, res) => {    
+const updateUserById = async (req: any, res: any) => {    
     const { id } = req.params;
     const user = await UserModel.findByIdAndUpdate(id, req.body, { runValidators: true, new: true})
     console.log(`Data updated for: ${user.firstName} ${user.lastName}`);
-})
+};
 
 // delete user by id
-router.delete('/users/delete/:id', isAdminOrCurrentUser, async (req, res) => {    
+const deleteUserById = async (req: any, res: any) => {    
     const { id } = req.params;
     const user = await UserModel.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
     console.log(`Deleted user: ${user.firstName} ${user.lastName}`);
-})
+};
 
 
-export default router;
+module.exports = {
+    getAllUsers,
+    getUserById,
+    addUser,
+    updateUserById,
+    deleteUserById
+}

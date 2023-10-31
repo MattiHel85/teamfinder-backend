@@ -5,9 +5,10 @@ import express from 'express';
 import { Error } from 'mongoose';
 import loginRouter from './routes/authRoutes'
 import teamRouter from './routes/teamRoutes';
-import userRouter from './routes/userRoutes';
 import passport from 'passport';
+import { isAdminOrCurrentUser } from './middleware/isAdminOrCurrentUser';
 
+const userRoutes = require('./routes/userRoutes');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -17,6 +18,7 @@ const mongoPass = process.env.PASSWORD;
 
 // Parse JSON and URL-encoded data
 app.use(bodyParser.json());
+app.unsubscribe(userRoutes);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
@@ -66,15 +68,15 @@ app.get('/profile', loginRouter);
 /* USER ROUTES */
 
 // get users 
-app.get('/users', userRouter);
+app.get('/users', userRoutes.getAllUsers);
 // get user by id
-app.get('/users/:id', userRouter)
+app.get('/users/:id', userRoutes.getUserById)
 // add user
-app.post('/users/adduser', userRouter);
+app.post('/users/adduser', userRoutes.addUser);
 // update user
-app.put('/users/update/:id', userRouter);
+app.put('/users/update/:id', isAdminOrCurrentUser, userRoutes.updateUserById);
 // delete user
-app.delete('/users/delete/:id', userRouter);
+app.delete('/users/delete/:id', isAdminOrCurrentUser, userRoutes.deleteUserById);
 
 
 // server
