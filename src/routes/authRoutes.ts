@@ -1,18 +1,23 @@
-import express from 'express';
-import passport from '../config/passport';
 import { generateToken } from '../utils/authUtils';
 import { User } from '../types/user';
 
 const bcrypt = require('bcryptjs');
 const UserModel = require('../models/user');
-const router = express.Router();
 
-router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
-    const user = req.user;
-    res.json(user)
-})
+const getProfile = async (req: any, res: any) => {
+    try {
+        const user: User = await UserModel.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
-router.post('/login', async (req, res) => {
+const login = async (req: any, res: any) => {
     const { email, password } = req.body;
 
     try {
@@ -34,6 +39,9 @@ router.post('/login', async (req, res) => {
         console.error('Error during login:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
-});
+};
 
-export default router;
+export {
+    getProfile,
+    login
+};

@@ -3,12 +3,13 @@ require('dotenv').config();
 import './config/passport';
 import express from 'express';
 import { Error } from 'mongoose';
-import loginRouter from './routes/authRoutes'
-import teamRouter from './routes/teamRoutes';
 import passport from 'passport';
 import { isAdminOrCurrentUser } from './middleware/isAdminOrCurrentUser';
+import { isAdmin } from './middleware/adminMiddleware';
 
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+const teamRoutes = require('./routes/teamRoutes');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -18,7 +19,9 @@ const mongoPass = process.env.PASSWORD;
 
 // Parse JSON and URL-encoded data
 app.use(bodyParser.json());
-app.unsubscribe(userRoutes);
+app.use(userRoutes);
+app.use(authRoutes);
+app.use(teamRoutes);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
@@ -45,24 +48,24 @@ db.once("open", () => console.log("Connected to DB!"));
 /* TEAM ROUTES */
 
 // fetch teams
-app.get('/teams', teamRouter);
+app.get('/teams', teamRoutes.getAllTeams);
 // fetch team by id
-app.get('/teams/:id', teamRouter);
+app.get('/teams/:id', teamRoutes.getTeamById);
 // add team
-app.post('/teams/addteam', teamRouter);
+app.post('/teams/addteam', isAdmin, teamRoutes.addTeam);
 // update team by id 
-app.put('/teams/update/:id', teamRouter);
+app.put('/teams/update/:id', isAdmin, teamRoutes.updateTeamById);
 // delete team by id
-app.delete('/teams/delete/:id', teamRouter);
+app.delete('/teams/delete/:id', isAdmin, teamRoutes.deleteTeamById);
 
 
 
 /* AUTH ROUTES */
 
 // login
-app.post('/login', loginRouter);
+app.post('/login', authRoutes.login);
 // get authorised profile
-app.get('/profile', loginRouter);
+app.get('/profile', passport.authenticate('jwt', {session: false}), authRoutes.getProfile);
 
 
 /* USER ROUTES */

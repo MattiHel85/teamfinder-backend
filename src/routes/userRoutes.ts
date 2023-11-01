@@ -1,7 +1,4 @@
 require('dotenv').config();
-
-import express from 'express';
-
 const UserModel = require('../models/user');
 const bcrypt = require('bcryptjs');
 
@@ -69,7 +66,7 @@ const deleteUserById = async (req: any, res: any) => {
 };
 
 
-module.exports = {
+export {
     getAllUsers,
     getUserById,
     addUser,
