@@ -19,9 +19,6 @@ const mongoPass = process.env.PASSWORD;
 
 // Parse JSON and URL-encoded data
 app.use(bodyParser.json());
-app.use(userRoutes);
-app.use(authRoutes);
-app.use(teamRoutes);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cors());
