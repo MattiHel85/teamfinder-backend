@@ -19,13 +19,14 @@ const getTeamById = async (req: any, res: any) => {
 const addTeam = async (req: any, res: any) => {
     const newTeam = req.body;
 
-    await newTeam.save()
-        .then((newTeam: Team) => {
-            console.log(`Added team: ${newTeam.name}`)
-        })
-        .catch((e: Error) => {
-            console.log(e)
-        })
+    try {
+        const savedTeam = await newTeam.save();
+        console.log(`Added team: ${savedTeam.name}`);
+        res.status(201).json(savedTeam);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' }); 
+    }
 };
 
 // update team by id 
