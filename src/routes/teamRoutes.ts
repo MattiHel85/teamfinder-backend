@@ -22,6 +22,7 @@ const addTeam = async (req: any, res: any) => {
     const user = req.body.user;
 
     try {
+        console.log(user.isAdmin)
         const savedTeam = await newTeam.save();
         console.log(`Added team: ${savedTeam.name}`);
         res.status(201).json(savedTeam);
