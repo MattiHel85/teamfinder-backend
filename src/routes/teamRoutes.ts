@@ -19,24 +19,27 @@ const getTeamById = async (req: any, res: any) => {
 
 // add team
 const addTeam = async (req: any, res: any) => {
-    const newTeam = new TeamModel({
-        badgeUrl: req.body.badgeUrl,
-        name: req.body.name,
-        nickname: req.body.nickname,
-        founded: req.body.founded,
-        groundName: req.body.groundName,
-        groundCapacity:  req.body.groundCapacity,
-        country: req.body.country,
-        league: req.body.league,
-        coach: req.body.coach
-    })
-    await newTeam.save()
-        .then((newTeam: Team) => {
-            console.log(`Added team: ${newTeam.name}`)
+    const { badgeUrl, name, nickname, founded, groundName, groundCapacity, country, league, coach} = req.body;
+    
+    try {
+        const newTeam = new TeamModel({
+            badgeUrl,
+            name,
+            nickname,
+            founded,
+            groundName,
+            groundCapacity,
+            country,
+            league,
+            coach
         })
-        .catch((e: Error) => {
-            console.log(e)
-        })
+    
+        await newTeam.save()
+    
+        return res.status(200).json({message: `Added team ${newTeam.name}`})
+    } catch (error) {
+        return res.status(500).json({error: 'Error saving team'})
+    }
 };
 
 // update team by id 
