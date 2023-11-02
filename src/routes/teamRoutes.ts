@@ -1,5 +1,6 @@
 import express from "express";
 import { Team } from "../types/team";
+import { User } from "../types/user";
 const TeamModel = require('../models/team');
 
 // fetch all teams
@@ -17,7 +18,8 @@ const getTeamById = async (req: any, res: any) => {
 
 // add team
 const addTeam = async (req: any, res: any) => {
-    const newTeam = req.body;
+    const newTeam = req.body.newTeam;
+    const user = req.body.user;
 
     try {
         const savedTeam = await newTeam.save();
