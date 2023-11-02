@@ -4,8 +4,6 @@ import './config/passport';
 import express from 'express';
 import { Error } from 'mongoose';
 import passport from 'passport';
-import { isAdminOrCurrentUser } from './middleware/isAdminOrCurrentUser';
-import { isAdmin } from './middleware/adminMiddleware';
 
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -49,11 +47,11 @@ app.get('/teams', teamRoutes.getAllTeams);
 // fetch team by id
 app.get('/teams/:id', teamRoutes.getTeamById);
 // add team
-app.post('/teams/addteam', isAdmin, teamRoutes.addTeam);
+app.post('/teams/addteam', teamRoutes.addTeam);
 // update team by id 
-app.put('/teams/update/:id', isAdmin, teamRoutes.updateTeamById);
+app.put('/teams/update/:id', teamRoutes.updateTeamById);
 // delete team by id
-app.delete('/teams/delete/:id', isAdmin, teamRoutes.deleteTeamById);
+app.delete('/teams/delete/:id', teamRoutes.deleteTeamById);
 
 
 
@@ -74,9 +72,9 @@ app.get('/users/:id', userRoutes.getUserById)
 // add user
 app.post('/users/adduser', userRoutes.addUser);
 // update user
-app.put('/users/update/:id', isAdminOrCurrentUser, userRoutes.updateUserById);
+app.put('/users/update/:id', userRoutes.updateUserById);
 // delete user
-app.delete('/users/delete/:id', isAdminOrCurrentUser, userRoutes.deleteUserById);
+app.delete('/users/delete/:id', userRoutes.deleteUserById);
 
 
 // server

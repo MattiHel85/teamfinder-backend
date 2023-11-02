@@ -18,14 +18,12 @@ const getTeamById = async (req: any, res: any) => {
 
 // add team
 const addTeam = async (req: any, res: any) => {
-    const newTeam = req.body.newTeam;
-    const user = req.body.user;
+    const newTeam = req.body
 
     try {
-        console.log(user.isAdmin)
-        const savedTeam = await newTeam.save();
-        console.log(`Added team: ${savedTeam.name}`);
-        res.status(201).json(savedTeam);
+        await newTeam.save();
+        console.log(`Added team: ${newTeam.name}`);
+        res.status(201).json(newTeam);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' }); 
