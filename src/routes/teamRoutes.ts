@@ -1,6 +1,7 @@
 import express from "express";
 import { Team } from "../types/team";
 import { User } from "../types/user";
+import { Error } from "mongoose";
 const TeamModel = require('../models/team');
 
 // fetch all teams
@@ -18,22 +19,24 @@ const getTeamById = async (req: any, res: any) => {
 
 // add team
 const addTeam = async (req: any, res: any) => {
-    const newTeam = req.body
-
-    try {
-        const savedTeam = await newTeam.save();
-
-        console.log(`Added team: ${savedTeam.name}`);
-        res.status(201).json(savedTeam);
-    } catch (error: any) {
-        if (error.name === 'ValidationError') {
-            console.error(error);
-            res.status(400).json({ error: 'Validation Error: Invalid team data.' });
-        } else {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    }
+    const newTeam = new TeamModel({
+        badgeUrl: req.body.badgeUrl,
+        name: req.body.name,
+        nickname: req.body.nickname,
+        founded: req.body.founded,
+        groundName: req.body.groundName,
+        groundCapacity:  req.body.groundCapacity,
+        country: req.body.country,
+        league: req.body.league,
+        coach: req.body.coach
+    })
+    await newTeam.save()
+        .then((newTeam: Team) => {
+            console.log(`Added team: ${newTeam.name}`)
+        })
+        .catch((e: Error) => {
+            console.log(e)
+        })
 };
 
 // update team by id 
