@@ -21,12 +21,18 @@ const addTeam = async (req: any, res: any) => {
     const newTeam = req.body
 
     try {
-        await newTeam.save();
-        console.log(`Added team: ${newTeam.name}`);
-        res.status(201).json(newTeam);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' }); 
+        const savedTeam = await newTeam.save();
+
+        console.log(`Added team: ${savedTeam.name}`);
+        res.status(201).json(savedTeam);
+    } catch (error: any) {
+        if (error.name === 'ValidationError') {
+            console.error(error);
+            res.status(400).json({ error: 'Validation Error: Invalid team data.' });
+        } else {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 };
 
