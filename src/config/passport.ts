@@ -10,7 +10,7 @@ const UserModel = require('../models/user');
 
 const jwtOptions: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET_KEY,
+    secretOrKey: process.env.JWT_SECRET_KEY || 'askOchEmbla',
 };
 
 passport.use(

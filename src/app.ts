@@ -11,9 +11,9 @@ const teamRoutes = require('./routes/teamRoutes');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const port = process.env.PORT;
+const port = process.env.PORT ||3000;
 const mongoose = require('mongoose');
-const mongoPass = process.env.PASSWORD;
+const mongoPass = process.env.PASSWORD || 'hhSN1ngfkVZYzXO4';
 
 // Parse JSON and URL-encoded data
 app.use(bodyParser.json());
